@@ -105,9 +105,10 @@ const Detail = ({ expenseData, setExpenseData }) => {
     };
 
     const handleSave = () => {
-        setExpenseData(updatedData);
         // id 값이 일치하면 `editedExpense`로 대체한다. 일치하지 않으면 유지함
         const updatedData = expenseData.map((item) => (item.id.toString() === id ? editedExpense : item));
+        setExpenseData(updatedData); // setExpenseData 이후에 updatedData를 정의
+
         setIsEditing(false); // 수정모드 종료됨
         alert(`정상적으로 수정 되었습니다.`);
         navigate('/'); // 수정되고 홈으로 이동됨
