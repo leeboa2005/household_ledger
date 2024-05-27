@@ -109,6 +109,7 @@ const ExpenseForm = ({ onExpenseData }) => {
     );
 };
 
+// prop 타입 선언
 ExpenseForm.propTypes = {
     onExpenseData: PropTypes.func.isRequired,
 };

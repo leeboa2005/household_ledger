@@ -1,10 +1,9 @@
 // App.jsx
-
-import { useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import Router from './shared/Router';
-import dummy from './db/fakeData.json';
+import { useContext } from 'react';
+import { ExpenseInfoContext } from './context/ExpenseProvider.jsx';
 
 // reset css 설정
 const GlobalStyle = createGlobalStyle`${reset}
@@ -77,16 +76,7 @@ const GlobalStyle = createGlobalStyle`${reset}
 `;
 
 const App = () => {
-    // 초기 데이터 dummy 값을 업데이트함
-    const initialData = dummy.map((expense) => ({
-        id: expense.id,
-        date: expense.date,
-        item: expense.item,
-        amount: expense.amount,
-        description: expense.description,
-    }));
-
-    const [expenseData, setExpenseData] = useState(initialData);
+    const { expenseData, setExpenseData } = useContext(ExpenseInfoContext);
 
     return (
         <div>
