@@ -114,7 +114,7 @@ const Detail = ({ expenseData, setExpenseData }) => {
     const navigate = useNavigate(); // 페이지 이동시 필요한 함수
 
     const [isEditing, setIsEditing] = useState(false); // 편집 모드 초기값
-    const [editedExpense, setEditedExpense] = useState({ date: '', item: '', description: '', amount: '' });
+    const [editedExpense, setEditedExpense] = useState({ date: '', item: '', description: '', amount: 0 });
 
     // 수정 버튼 클릭 시 편집 모드로 전환됨
     const handleEdit = () => {
@@ -130,7 +130,6 @@ const Detail = ({ expenseData, setExpenseData }) => {
         // id 값이 일치하면 `editedExpense`로 대체한다. 일치하지 않으면 유지함
         const updatedData = expenseData.map((item) => (item.id.toString() === id ? editedExpense : item));
         setExpenseData(updatedData); // setExpenseData 이후에 updatedData를 정의
-
         setIsEditing(false); // 수정모드 종료됨
         alert(`정상적으로 수정 되었습니다.`);
         navigate('/'); // 수정되고 홈으로 이동됨
@@ -138,17 +137,28 @@ const Detail = ({ expenseData, setExpenseData }) => {
 
     // 취소 버튼 클릭시 수정 모드 종료됨
     const handleCancel = () => {
+        // 수정 중인 내용을 초기값으로 되돌리기 위해 원래의 내용을 재설정
+        const originalExpense = expenseData.find((item) => item.id.toString() === id);
+        setEditedExpense(originalExpense);
         setIsEditing(false);
     };
 
     // 삭제 버튼 클릭 시 해당 지출 내역 삭제
     const handleDelete = () => {
-        // 삭제된 내역을 제외한 새로운 지출 내역 배열을 생성
-        const updatedData = expenseData.filter((item) => item.id.toString() !== id);
-        alert(`정말로 지출 내역을 삭제하시겠습니까?`);
-        setExpenseData(updatedData); // 지출 내역 업데이트 됨
-        setTimeout(() => alert(`정상적으로 삭제 되었습니다.`), 500);
-        navigate('/'); // 홈으로 이동
+        // 삭제 전 확인을 위한 확인 대화상자를 띄웁니다.
+        const confirmed = confirm('정말 삭제하시겠습니까? 😮');
+        if (confirmed) {
+            // 삭제가 확인되면
+            alert('삭제되었습니다. 👋');
+            // 선택한 ID와 일치하지 않는 지출 항목들로 업데이트된 데이터를 필터링합니다.
+            const updatedData = expenseData.filter((item) => item.id.toString() !== id);
+            setExpenseData(updatedData);
+            // 삭제 후 홈 페이지로 이동합니다.
+            navigate('/');
+        } else {
+            // 삭제가 취소된 경우
+            alert('취소 되었습니다.');
+        }
     };
 
     // 뒤로가기 버튼 클릭시 이전 페이지로 이동
@@ -159,14 +169,14 @@ const Detail = ({ expenseData, setExpenseData }) => {
     // 입력 필드 값 변경 시 해당 값을 상태에 반영
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setEditedExpense((prevExpense) => ({ ...prevExpense, [name]: value }));
+        setEditedExpense((prevExpense) => ({ ...prevExpense, [name]: name === 'amount' ? parseInt(value) : value }));
     };
 
     // 지출 내역 데이터가 변경되거나 id 파라미터가 변경될 때 실행
     useEffect(() => {
         // id에 해당하는 지출 내역을 찾아 상태에 저장
         const foundExpense = expenseData ? expenseData.find((item) => item.id.toString() === id) : null;
-        setEditedExpense(foundExpense ? { ...foundExpense } : { date: '', item: '', description: '', amount: '' });
+        setEditedExpense(foundExpense ? { ...foundExpense } : { date: '', item: '', description: '', amount: 0 });
     }, [expenseData, id]);
 
     return (
