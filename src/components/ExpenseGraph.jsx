@@ -142,7 +142,7 @@ const ExpenseGraph = ({ expenseData, selectedMonth }) => {
             if (!acc[item]) {
                 acc[item] = 0;
             }
-            acc[item] += amount;
+            acc[item] += Number(amount);
         }
         return acc;
     }, {});
