@@ -14,6 +14,21 @@ import { FaRocketchat } from 'react-icons/fa'; // 기타 아이콘
 
 const COLORS = ['#93cde9', '#1BC9A6', '#5D6DBE', '#F15B87', '#F56971', '#E4CB6D', '#FD8A69', '#E8738F', '#FF4560'];
 
+// 항목에 맞는 아이콘을 매핑 (여기에 없는 항목은 기타 아이콘으로 표기됨)
+const iconMap = {
+    미용: <PiHairDryer />,
+    도서: <IoBookOutline />,
+    의류비: <GiRolledCloth />,
+    식비: <IoFastFoodOutline />,
+    간식: <LuCandy />,
+    여행: <MdTravelExplore />,
+    교육: <MdCastForEducation />,
+    운동: <BiDumbbell />,
+};
+
+// default아이콘은 기타아이콘으로 설정
+const defaultIcon = <FaRocketchat />;
+
 const GraphContainer = styled.div`
     width: 100%;
     background-color: var(--grey-color);
@@ -104,24 +119,8 @@ const ImageContainer = styled.div`
     }
 `;
 
-// 항목에 맞는 아이콘을 매핑 (여기에 없는 항목은 기타 아이콘으로 표기됨)
-const iconMap = {
-    미용: <PiHairDryer />,
-    도서: <IoBookOutline />,
-    의류비: <GiRolledCloth />,
-    식비: <IoFastFoodOutline />,
-    간식: <LuCandy />,
-    여행: <MdTravelExplore />,
-    교육: <MdCastForEducation />,
-    운동: <BiDumbbell />,
-};
-
-// default아이콘은 기타아이콘으로 설정
-const defaultIcon = <FaRocketchat />;
-
-// 애니메이션 상태 초기화
 const ExpenseGraph = ({ expenseData, selectedMonth }) => {
-    const [animationReady, setAnimationReady] = useState(false);
+    const [animationReady, setAnimationReady] = useState(false); // 애니메이션 상태 초기화
 
     // 선택된 월 또는 지출 데이터가 변경될 때 애니메이션 초기화 및 새로운 바 애니메이션 동작
     useEffect(() => {
@@ -182,7 +181,7 @@ const ExpenseGraph = ({ expenseData, selectedMonth }) => {
     );
 };
 
-// PropTypes를 이용한 prop를 검증한다. (에러 처리)
+// Prop Types를 이용한 prop를 검증한다. (에러 처리)
 ExpenseGraph.propTypes = {
     expenseData: PropTypes.arrayOf(
         PropTypes.shape({

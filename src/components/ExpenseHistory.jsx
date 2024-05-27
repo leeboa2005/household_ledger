@@ -80,7 +80,7 @@ const ExpenseHistory = ({ expenseData }) => {
     );
 };
 
-// propType 지정
+// prop Type 지정
 ExpenseHistory.propTypes = {
     expenseData: PropTypes.array.isRequired,
 };

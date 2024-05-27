@@ -57,6 +57,7 @@ const Home = ({ expenseData, setExpenseData }) => {
     );
 };
 
+// prop Type 지정
 Home.propTypes = {
     expenseData: PropTypes.array.isRequired,
     setExpenseData: PropTypes.func.isRequired,

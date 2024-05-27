@@ -24,7 +24,7 @@ const Router = ({ expenseData, setExpenseData }) => {
     );
 };
 
-// propType 지정
+// prop Type 지정
 Router.propTypes = {
     expenseData: PropTypes.array.isRequired,
     setExpenseData: PropTypes.func.isRequired,

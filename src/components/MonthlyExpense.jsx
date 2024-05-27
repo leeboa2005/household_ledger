@@ -66,6 +66,7 @@ const MonthlyExpense = ({ selectedMonth, onChangeMonth }) => {
     );
 };
 
+// prop Type 지정
 MonthlyExpense.propTypes = {
     selectedMonth: PropTypes.number.isRequired,
     onChangeMonth: PropTypes.func.isRequired,

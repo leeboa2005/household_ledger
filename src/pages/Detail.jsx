@@ -200,7 +200,7 @@ const Detail = ({ expenseData, setExpenseData }) => {
                             <fieldset>
                                 <label htmlFor="amount">금액</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="amount"
                                     placeholder="지출 금액"
                                     value={editedExpense.amount}
