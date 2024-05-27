@@ -85,8 +85,8 @@ const ExpenseForm = ({ onExpenseData }) => {
     };
 
     return (
-        <StyledFormWrap onSubmit={handleSubmit}>
-            <StyledForm>
+        <StyledFormWrap>
+            <StyledForm onSubmit={handleSubmit}>
                 <fieldset>
                     <label htmlFor="date">날짜</label>
                     <input type="date" id="date" placeholder="YYYY-MM-DD" ref={dateRef} />

@@ -65,10 +65,9 @@ const PriceLabel = styled.p`
 `;
 
 const NoDataMessage = styled.div`
-    font-weight: 600;
-    color: #999;
+    color: var(--font-gray-color);
     text-align: center;
-    padding: 50px;
+    padding: 60px;
 `;
 
 const ImageContainer = styled.div`

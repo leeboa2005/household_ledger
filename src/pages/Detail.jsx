@@ -38,12 +38,29 @@ const InfoBox = styled.div`
     }
 `;
 
-const ModifyBox = styled.div`
+const ModifyBox = styled.form`
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+
+    fieldset {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 0%;
+        min-width: 120px;
+    }
+
+    label {
+        margin-bottom: 5px;
+        font-weight: var(--font-bold);
+        display: block;
+    }
 
     input {
         padding: 8px;
-        margin-right: 10px;
+        margin-bottom: 10px;
         border: var(--border-style);
         border-radius: var(--default-radius-2);
 
@@ -93,11 +110,11 @@ const ButtonGroup = styled.div`
 `;
 
 const Detail = ({ expenseData, setExpenseData }) => {
-    const { id } = useParams(); // URL에서 id 피라미터를 가져옴
+    const { id } = useParams(); // URL에서 id 파라미터를 가져옴
     const navigate = useNavigate(); // 페이지 이동시 필요한 함수
 
     const [isEditing, setIsEditing] = useState(false); // 편집 모드 초기값
-    const [editedExpense, setEditedExpense] = useState(''); // 수정 모드 초기값
+    const [editedExpense, setEditedExpense] = useState({ date: '', item: '', description: '', amount: '' });
 
     // 수정 버튼 클릭 시 편집 모드로 전환됨
     const handleEdit = () => {
@@ -105,6 +122,11 @@ const Detail = ({ expenseData, setExpenseData }) => {
     };
 
     const handleSave = () => {
+        if (!editedExpense.date || !editedExpense.item || !editedExpense.description || !editedExpense.amount) {
+            alert('입력창을 모두 입력해주세요.');
+            return;
+        }
+
         // id 값이 일치하면 `editedExpense`로 대체한다. 일치하지 않으면 유지함
         const updatedData = expenseData.map((item) => (item.id.toString() === id ? editedExpense : item));
         setExpenseData(updatedData); // setExpenseData 이후에 updatedData를 정의
@@ -125,11 +147,11 @@ const Detail = ({ expenseData, setExpenseData }) => {
         const updatedData = expenseData.filter((item) => item.id.toString() !== id);
         alert(`정말로 지출 내역을 삭제하시겠습니까?`);
         setExpenseData(updatedData); // 지출 내역 업데이트 됨
-        alert(`정상적으로 삭제 되었습니다.`);
-        navigate('/'); // 홈 으로 이동
+        setTimeout(() => alert(`정상적으로 삭제 되었습니다.`), 500);
+        navigate('/'); // 홈으로 이동
     };
 
-    // 뒤로가기 버튼 틀릭시 이전 페이지로 이동
+    // 뒤로가기 버튼 클릭시 이전 페이지로 이동
     const handleBack = () => {
         navigate(-1);
     };
@@ -144,7 +166,7 @@ const Detail = ({ expenseData, setExpenseData }) => {
     useEffect(() => {
         // id에 해당하는 지출 내역을 찾아 상태에 저장
         const foundExpense = expenseData ? expenseData.find((item) => item.id.toString() === id) : null;
-        setEditedExpense(foundExpense); //foundExpense 값으로 업데이트
+        setEditedExpense(foundExpense ? { ...foundExpense } : { date: '', item: '', description: '', amount: '' });
     }, [expenseData, id]);
 
     return (
@@ -155,15 +177,47 @@ const Detail = ({ expenseData, setExpenseData }) => {
                     // 수정 모드일 때
                     <StyledDetailBox key={editedExpense.id}>
                         <ModifyBox>
-                            <input type="text" name="date" value={editedExpense.date} onChange={handleChange} />
-                            <input type="text" name="item" value={editedExpense.item} onChange={handleChange} />
-                            <input
-                                type="text"
-                                name="description"
-                                value={editedExpense.description}
-                                onChange={handleChange}
-                            />
-                            <input type="text" name="amount" value={editedExpense.amount} onChange={handleChange} />
+                            <fieldset>
+                                <label htmlFor="date">날짜</label>
+                                <input
+                                    type="date"
+                                    name="date"
+                                    placeholder="YYYY-MM-DD"
+                                    value={editedExpense.date}
+                                    onChange={handleChange}
+                                />
+                            </fieldset>
+                            <fieldset>
+                                <label htmlFor="item">항목</label>
+                                <input
+                                    type="text"
+                                    name="item"
+                                    placeholder="지출 항목"
+                                    value={editedExpense.item}
+                                    onChange={handleChange}
+                                />
+                            </fieldset>
+                            <fieldset>
+                                <label htmlFor="amount">금액</label>
+                                <input
+                                    type="text"
+                                    name="amount"
+                                    placeholder="지출 금액"
+                                    value={editedExpense.amount}
+                                    onChange={handleChange}
+                                />
+                            </fieldset>
+                            <fieldset>
+                                <label htmlFor="description">내용</label>
+
+                                <input
+                                    type="text"
+                                    name="description"
+                                    placeholder="지출 내용"
+                                    value={editedExpense.description}
+                                    onChange={handleChange}
+                                />
+                            </fieldset>
                         </ModifyBox>
                     </StyledDetailBox>
                 ) : (
