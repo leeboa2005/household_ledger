@@ -127,6 +127,12 @@ const Detail = ({ expenseData, setExpenseData }) => {
             return;
         }
 
+        // 금액이 0 이하인지 확인
+        if (Number(editedExpense.amount) <= 0) {
+            alert('금액은 0보다 커야 합니다.');
+            return;
+        }
+
         // id 값이 일치하면 `editedExpense`로 대체한다. 일치하지 않으면 유지함
         const updatedData = expenseData.map((item) => (item.id.toString() === id ? editedExpense : item));
         setExpenseData(updatedData); // setExpenseData 이후에 updatedData를 정의
