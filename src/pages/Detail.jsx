@@ -175,9 +175,11 @@ const Detail = ({ expenseData, setExpenseData }) => {
     // 입력 필드 값 변경 시 해당 값을 상태에 반영
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setEditedExpense((prevExpense) => ({ ...prevExpense, [name]: name === 'amount' ? parseInt(value) : value }));
+        setEditedExpense((prevExpense) => ({
+            ...prevExpense,
+            [name]: name === 'amount' ? (value ? parseInt(value) : '') : value.toString(),
+        }));
     };
-
     // 지출 내역 데이터가 변경되거나 id 파라미터가 변경될 때 실행
     useEffect(() => {
         // id에 해당하는 지출 내역을 찾아 상태에 저장
