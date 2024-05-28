@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addExpenseData } from '../redux/modules/expenseDate';
 import styled from 'styled-components';
 import ExpenseForm from '../components/ExpenseForm';
 import ExpenseHistory from '../components/ExpenseHistory';
@@ -12,22 +14,25 @@ const StyledHome = styled.div`
     justify-content: center;
 `;
 
-const Home = ({ expenseData, setExpenseData }) => {
+const Home = () => {
+    const dispatch = useDispatch();
+    const expenseData = useSelector((state) => state.expenseData.items);
+
+    // 새로운 지출 데이터를 Redux store에 추가하는 함수
+    const onExpenseData = (data) => {
+        dispatch(addExpenseData(data));
+    };
+
     // 선택된 월과 해당 월을 변경하는 상태와 함수를 생성
     const [selectedMonth, setSelectedMonth] = useState(() => {
         const savedMonth = localStorage.getItem('selectedMonth');
-        return savedMonth ? parseInt(savedMonth) : 1; // 로컬 스토리지에 저장된 월을 가져오거나 기본값으로 1월로 설정
+        return savedMonth ? parseInt(savedMonth) : 1;
     });
 
     // 월 변경 함수
     const changeMonth = (month) => {
-        setSelectedMonth(month); // 선택된 월 상태를 업데이트
-        localStorage.setItem('selectedMonth', month.toString()); // 선택된 월을 로컬 스토리지에 저장
-    };
-
-    const onExpenseData = (data) => {
-        // 이전 지출 데이터 배열에 새로운 데이터를 추가
-        setExpenseData((prevData) => [...prevData, data]);
+        setSelectedMonth(month);
+        localStorage.setItem('selectedMonth', month.toString());
     };
 
     // 선택된 월에 해당하는 지출 데이터를 필터링
@@ -56,7 +61,6 @@ const Home = ({ expenseData, setExpenseData }) => {
         </StyledHome>
     );
 };
-
 Home.propTypes = {
     expenseData: PropTypes.array.isRequired,
     setExpenseData: PropTypes.func.isRequired,

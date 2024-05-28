@@ -11,9 +11,10 @@ const Router = ({ expenseData, setExpenseData }) => {
         <BrowserRouter>
             <Layout>
                 <Routes>
-                    {/* 홈 패이지의 컴포넌트에 지출 데이터와 지출 데이터 설정 함수를 전달 */}
+                    {/* 홈 페이지 */}
                     <Route path="/" element={<Home expenseData={expenseData} setExpenseData={setExpenseData} />} />
-                    {/* 디테일 페이지의 컴포넌트에 지출 데이터와 지출 데이터 설정 함수를 전달 */}
+
+                    {/* 디테일 페이지 */}
                     <Route
                         path="/detail/:id"
                         element={<Detail expenseData={expenseData} setExpenseData={setExpenseData} />}
@@ -24,7 +25,7 @@ const Router = ({ expenseData, setExpenseData }) => {
     );
 };
 
-// propType 지정
+// PropType 검증
 Router.propTypes = {
     expenseData: PropTypes.array.isRequired,
     setExpenseData: PropTypes.func.isRequired,

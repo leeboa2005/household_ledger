@@ -1,33 +1,9 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// 항목별 아이콘들
-import { IoFastFoodOutline } from 'react-icons/io5';
-import { IoBookOutline } from 'react-icons/io5';
-import { PiHairDryer } from 'react-icons/pi';
-import { LuCandy } from 'react-icons/lu';
-import { MdTravelExplore } from 'react-icons/md';
-import { MdCastForEducation } from 'react-icons/md';
-import { BiDumbbell } from 'react-icons/bi';
-import { GiRolledCloth } from 'react-icons/gi';
-import { FaRocketchat } from 'react-icons/fa'; // 기타 아이콘
+import icons from '../assets/Graph/icons';
 
 const COLORS = ['#93cde9', '#1BC9A6', '#5D6DBE', '#F15B87', '#F56971', '#E4CB6D', '#FD8A69', '#E8738F', '#FF4560'];
-
-// 항목에 맞는 아이콘을 매핑 (여기에 없는 항목은 기타 아이콘으로 표기됨)
-const iconMap = {
-    미용: <PiHairDryer />,
-    도서: <IoBookOutline />,
-    의류비: <GiRolledCloth />,
-    식비: <IoFastFoodOutline />,
-    간식: <LuCandy />,
-    여행: <MdTravelExplore />,
-    교육: <MdCastForEducation />,
-    운동: <BiDumbbell />,
-};
-
-// default아이콘은 기타아이콘으로 설정
-const defaultIcon = <FaRocketchat />;
 
 const GraphContainer = styled.div`
     width: 100%;
@@ -158,12 +134,14 @@ const ExpenseGraph = ({ expenseData, selectedMonth }) => {
                 // 정렬된 데이터에 따라 바 차트 렌더링
                 sortedData.map(([item, amount], index) => {
                     const selectedColor = COLORS[index % COLORS.length]; //index 값을 사용하여 COLORS 배열에서 적절한 색상을 선택
-                    const icon = iconMap[item] || defaultIcon; // 해당 지출 항목에 대한 아이콘을 가져옴 아이콘이 없다면 defaultIcon을 사용
+                    const IconComponent = icons[item] || icons['기타']; // 해당 지출 항목에 대한 아이콘을 가져옴 아이콘이 없다면 기타 아이콘을 사용
                     return (
                         <BarContainer key={item}>
                             <LabelContainer>
                                 {/* 선택한 컬러를 아이콘 배경색으로 지정 해당 지출 항목의 아이콘이 보이게됨 */}
-                                <ImageContainer color={selectedColor}>{icon}</ImageContainer>
+                                <ImageContainer color={selectedColor}>
+                                    <IconComponent />
+                                </ImageContainer>
                                 <Label>{item}</Label>
                             </LabelContainer>
 
@@ -181,7 +159,7 @@ const ExpenseGraph = ({ expenseData, selectedMonth }) => {
     );
 };
 
-// PropTypes를 이용한 prop를 검증한다. (에러 처리)
+// Prop Types를 이용한 prop를 검증한다. (에러 처리)
 ExpenseGraph.propTypes = {
     expenseData: PropTypes.arrayOf(
         PropTypes.shape({

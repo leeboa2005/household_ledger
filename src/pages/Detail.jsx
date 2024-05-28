@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateExpenseData, deleteExpenseData } from '../redux/modules/expenseDate';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const StyledDetail = styled.div`
     margin-top: 30px;
@@ -109,9 +110,11 @@ const ButtonGroup = styled.div`
     }
 `;
 
-const Detail = ({ expenseData, setExpenseData }) => {
+const Detail = () => {
     const { id } = useParams(); // URL에서 id 파라미터를 가져옴
     const navigate = useNavigate(); // 페이지 이동시 필요한 함수
+    const dispatch = useDispatch();
+    const expenseData = useSelector((state) => state.expenseData.items);
 
     const [isEditing, setIsEditing] = useState(false); // 편집 모드 초기값
     const [editedExpense, setEditedExpense] = useState({ date: '', item: '', description: '', amount: 0 });
@@ -127,12 +130,16 @@ const Detail = ({ expenseData, setExpenseData }) => {
             return;
         }
 
-        // id 값이 일치하면 `editedExpense`로 대체한다. 일치하지 않으면 유지함
-        const updatedData = expenseData.map((item) => (item.id.toString() === id ? editedExpense : item));
-        setExpenseData(updatedData); // setExpenseData 이후에 updatedData를 정의
-        setIsEditing(false); // 수정모드 종료됨
-        alert(`정상적으로 수정 되었습니다.`);
-        navigate('/'); // 수정되고 홈으로 이동됨
+        // 금액이 0 이하인지 확인
+        if (Number(editedExpense.amount) <= 0) {
+            alert('금액은 0보다 커야 합니다.');
+            return;
+        }
+
+        dispatch(updateExpenseData({ id: id, updatedData: editedExpense }));
+        setIsEditing(false);
+        alert('정상적으로 수정 되었습니다.');
+        navigate('/');
     };
 
     // 취소 버튼 클릭시 수정 모드 종료됨
@@ -143,20 +150,13 @@ const Detail = ({ expenseData, setExpenseData }) => {
         setIsEditing(false);
     };
 
-    // 삭제 버튼 클릭 시 해당 지출 내역 삭제
     const handleDelete = () => {
-        // 삭제 전 확인을 위한 확인 대화상자를 띄웁니다.
-        const confirmed = confirm('정말 삭제하시겠습니까? 😮');
+        const confirmed = window.confirm('정말 삭제하시겠습니까? 😮');
         if (confirmed) {
-            // 삭제가 확인되면
+            dispatch(deleteExpenseData(id));
             alert('삭제되었습니다. 👋');
-            // 선택한 ID와 일치하지 않는 지출 항목들로 업데이트된 데이터를 필터링합니다.
-            const updatedData = expenseData.filter((item) => item.id.toString() !== id);
-            setExpenseData(updatedData);
-            // 삭제 후 홈 페이지로 이동합니다.
             navigate('/');
         } else {
-            // 삭제가 취소된 경우
             alert('취소 되었습니다.');
         }
     };
@@ -169,14 +169,17 @@ const Detail = ({ expenseData, setExpenseData }) => {
     // 입력 필드 값 변경 시 해당 값을 상태에 반영
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setEditedExpense((prevExpense) => ({ ...prevExpense, [name]: name === 'amount' ? parseInt(value) : value }));
+        setEditedExpense((prevExpense) => ({
+            ...prevExpense,
+            [name]: name === 'amount' ? (value ? parseInt(value) : '') : value,
+        }));
     };
 
     // 지출 내역 데이터가 변경되거나 id 파라미터가 변경될 때 실행
     useEffect(() => {
         // id에 해당하는 지출 내역을 찾아 상태에 저장
         const foundExpense = expenseData ? expenseData.find((item) => item.id.toString() === id) : null;
-        setEditedExpense(foundExpense ? { ...foundExpense } : { date: '', item: '', description: '', amount: 0 });
+        setEditedExpense(foundExpense ? { ...foundExpense } : { date: '', item: '', description: '', amount: '' });
     }, [expenseData, id]);
 
     return (
@@ -219,7 +222,6 @@ const Detail = ({ expenseData, setExpenseData }) => {
                             </fieldset>
                             <fieldset>
                                 <label htmlFor="description">내용</label>
-
                                 <input
                                     type="text"
                                     name="description"
@@ -273,12 +275,6 @@ const Detail = ({ expenseData, setExpenseData }) => {
             </ButtonGroup>
         </StyledDetail>
     );
-};
-
-// PropType 지정
-Detail.propTypes = {
-    expenseData: PropTypes.array.isRequired,
-    setExpenseData: PropTypes.func.isRequired,
 };
 
 export default Detail;
