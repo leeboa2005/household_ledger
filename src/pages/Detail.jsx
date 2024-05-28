@@ -127,6 +127,12 @@ const Detail = ({ expenseData, setExpenseData }) => {
             return;
         }
 
+        // 금액이 0 이하인지 확인
+        if (Number(editedExpense.amount) <= 0) {
+            alert('금액은 0보다 커야 합니다.');
+            return;
+        }
+
         // id 값이 일치하면 `editedExpense`로 대체한다. 일치하지 않으면 유지함
         const updatedData = expenseData.map((item) => (item.id.toString() === id ? editedExpense : item));
         setExpenseData(updatedData); // setExpenseData 이후에 updatedData를 정의
@@ -169,7 +175,10 @@ const Detail = ({ expenseData, setExpenseData }) => {
     // 입력 필드 값 변경 시 해당 값을 상태에 반영
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setEditedExpense((prevExpense) => ({ ...prevExpense, [name]: name === 'amount' ? parseInt(value) : value }));
+        setEditedExpense((prevExpense) => ({
+            ...prevExpense,
+            [name]: name === 'amount' ? (value ? parseInt(value) : '') : value.toString(),
+        }));
     };
 
     // 지출 내역 데이터가 변경되거나 id 파라미터가 변경될 때 실행
@@ -275,7 +284,7 @@ const Detail = ({ expenseData, setExpenseData }) => {
     );
 };
 
-// PropType 지정
+// Prop Type 지정
 Detail.propTypes = {
     expenseData: PropTypes.array.isRequired,
     setExpenseData: PropTypes.func.isRequired,

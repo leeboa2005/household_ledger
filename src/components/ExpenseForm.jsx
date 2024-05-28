@@ -68,6 +68,12 @@ const ExpenseForm = ({ onExpenseData }) => {
             return;
         }
 
+        // 금액이 0 이하인지 확인
+        if (Number(amount) <= 0) {
+            alert('금액은 0보다 커야 합니다.');
+            return;
+        }
+
         // 지출 데이터 객체를 생성
         const expenseData = {
             id,
