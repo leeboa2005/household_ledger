@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import icons from '../assets/Graph/icons';
+import icons from '../assets/graph/icons';
 
 const COLORS = [
     '#93CDE9',
