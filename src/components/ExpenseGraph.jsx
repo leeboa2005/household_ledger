@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import icons from '../assets/Graph/icons';
+import icons from '../assets/graph/icons';
 
 const COLORS = [
     '#93CDE9',
@@ -26,27 +26,34 @@ const GraphContainer = styled.div`
     border-radius: var(--default-radius);
     padding: 10px;
 `;
+
 const BarContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
 `;
+
 const Bar = styled.div`
     margin-right: 7px;
+    //배경색을 props로 전달받은 color 값으로 설정
     background-color: ${(props) => props.color};
+    // bar 컴포넌트의 너비를 props로 전달받은 width 값의 백분율로 설정
     width: ${(props) => props.width}%;
     height: 30px;
     border-radius: 10px;
     transition: width 2s ease-in-out;
+
     @media only screen and (max-width: 734px) {
         height: 22px;
     }
 `;
+
 const LabelContainer = styled.div`
     display: flex;
     align-items: center;
     padding: 5px 10px;
 `;
+
 const Label = styled.p`
     min-width: 70px;
 
@@ -55,40 +62,47 @@ const Label = styled.p`
         min-width: 30px;
     }
 `;
-const PriceLabel = styled.p`
-    min-width: 90px;
 
+const PriceLabel = styled.p`
+    min-width: 80px;
     @media only screen and (max-width: 734px) {
         font-size: 14px;
         min-width: 60px;
     }
 `;
+
 const NoDataMessage = styled.div`
     color: var(--font-gray-color);
     text-align: center;
     padding: 60px;
 `;
+
 const ImageContainer = styled.div`
     position: relative;
     width: 40px;
     height: 40px;
     margin-right: 5px;
+    // props로 전달된 color 값을 설정
     background-color: ${(props) => props.color};
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+
     svg {
-        font-size: 22px;
+        width: 22px;
         height: auto;
         color: #fff;
     }
+
     @media only screen and (max-width: 734px) {
         width: 27px;
         height: 27px;
+
         svg {
-            font-size: 17px;
+            width: 17px;
         }
+
         .Label {
             min-width: 30px;
         }
@@ -97,32 +111,43 @@ const ImageContainer = styled.div`
         }
     }
 `;
+
 const ExpenseGraph = ({ expenseData, selectedMonth }) => {
     const [animationReady, setAnimationReady] = useState(false); // 애니메이션 상태 초기화
+
     // 선택된 월 또는 지출 데이터가 변경될 때 애니메이션 초기화 및 새로운 바 애니메이션 동작
     useEffect(() => {
         setAnimationReady(false);
         const timeout = setTimeout(() => setAnimationReady(true), 200);
         return () => clearTimeout(timeout);
     }, [expenseData, selectedMonth]);
+
     // 선택된 월에 해당하는 지출 데이터를 필터링
     const filteredExpenseData = expenseData.filter((item) => {
         return new Date(item.date).getMonth() + 1 === selectedMonth;
     });
+
     // 열의 각 요소를 반복하면서 각 항목별로 지출 금액을 합산함
     //여기서 각 지출 항목(item)을 키로 해당 항목의 총 지출 금액(amount)을 값으로 가지는 객체를 생성
-    const categorizedData = filteredExpenseData.reduce((acc, expense) => {
+    const categorizedData = filteredExpenseData.reduce((accumulated, expense) => {
         const { item, amount } = expense;
         if (item && amount) {
-            if (!acc[item]) {
-                acc[item] = 0;
+            if (!accumulated[item]) {
+                accumulated[item] = 0;
             }
-            acc[item] += Number(amount);
+            accumulated[item] += Number(amount);
         }
-        return acc;
+        return accumulated;
     }, {});
+
+    // Object.entries : 주어진 객체의 속성(key-value 쌍)을 [키, 값] 쌍의 배열로 반환
+    // Object.values : 주어진 객체의 값들만을 배열로 반환
+
+    // 객체를 배열로 변환하고, 지출 금액(amount)을 기준으로 내림차순으로 정렬
     const sortedData = Object.entries(categorizedData).sort(([, amountA], [, amountB]) => amountB - amountA);
-    const totalAmount = Object.values(categorizedData).reduce((acc, amount) => acc + amount, 0);
+    // categorizedData객체의 값들을 모두 더하여 총 지출 금액을 계산함
+    const totalAmount = Object.values(categorizedData).reduce((accumulated, amount) => accumulated + amount, 0);
+
     return (
         <GraphContainer>
             {Object.keys(categorizedData).length === 0 ? (
@@ -141,6 +166,7 @@ const ExpenseGraph = ({ expenseData, selectedMonth }) => {
                                 </ImageContainer>
                                 <Label>{item}</Label>
                             </LabelContainer>
+
                             <Bar
                                 color={selectedColor} // 위에서 선택된 색상으로 지정됨
                                 width={animationReady ? (amount / totalAmount) * 100 : 0} // `true`이면 애니메이션 효과가 활성화됨
@@ -154,6 +180,7 @@ const ExpenseGraph = ({ expenseData, selectedMonth }) => {
         </GraphContainer>
     );
 };
+
 // Prop Types를 이용한 prop를 검증한다. (에러 처리)
 ExpenseGraph.propTypes = {
     expenseData: PropTypes.arrayOf(
@@ -166,4 +193,5 @@ ExpenseGraph.propTypes = {
     ).isRequired,
     selectedMonth: PropTypes.number.isRequired,
 };
+
 export default ExpenseGraph;
