@@ -3,7 +3,22 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import icons from '../assets/Graph/icons';
 
-const COLORS = ['#93CDE9', '#1BC9A6', '#5D6DBE', '#F15B87', '#F56971', '#E4CB6D', '#FD8A69', '#E8738F', '#FF4560'];
+const COLORS = [
+    '#93CDE9',
+    '#1BC9A6',
+    '#5D6DBE',
+    '#F15B87',
+    '#F56971',
+    '#E4CB6D',
+    '#fc8969',
+    '#E8738F',
+    '#FF4560',
+    '#A4DDED',
+    '#FFB347',
+    '#B39EB5',
+    '#fa635b',
+    '#ffd1dc',
+];
 
 const GraphContainer = styled.div`
     width: 100%;
@@ -34,13 +49,15 @@ const LabelContainer = styled.div`
 `;
 const Label = styled.p`
     min-width: 70px;
+
     @media only screen and (max-width: 734px) {
         font-size: 14px;
         min-width: 30px;
     }
 `;
 const PriceLabel = styled.p`
-    min-width: 80px;
+    min-width: 90px;
+
     @media only screen and (max-width: 734px) {
         font-size: 14px;
         min-width: 60px;
