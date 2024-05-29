@@ -15,7 +15,7 @@ import { FaMinus } from 'react-icons/fa'; // 기타 아이콘
 const icons = {
     미용: PiHairDryer,
     도서: IoBookOutline,
-    의류비: GiRolledCloth,
+    쇼핑: GiRolledCloth,
     식비: IoFastFoodOutline,
     간식: LuCandy,
     여행: MdTravelExplore,
