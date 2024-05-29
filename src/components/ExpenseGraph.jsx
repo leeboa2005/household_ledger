@@ -3,7 +3,22 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import icons from '../assets/Graph/icons';
 
-const COLORS = ['#93cde9', '#1BC9A6', '#5D6DBE', '#F15B87', '#F56971', '#E4CB6D', '#FD8A69', '#E8738F', '#FF4560'];
+const COLORS = [
+    '#93CDE9',
+    '#1BC9A6',
+    '#5D6DBE',
+    '#F15B87',
+    '#F56971',
+    '#E4CB6D',
+    '#fc8969',
+    '#E8738F',
+    '#FF4560',
+    '#A4DDED',
+    '#FFB347',
+    '#B39EB5',
+    '#fa635b',
+    '#ffd1dc',
+];
 
 const GraphContainer = styled.div`
     width: 100%;
@@ -20,7 +35,9 @@ const BarContainer = styled.div`
 
 const Bar = styled.div`
     margin-right: 7px;
+    //배경색을 props로 전달받은 color 값으로 설정
     background-color: ${(props) => props.color};
+    // bar 컴포넌트의 너비를 props로 전달받은 width 값의 백분율로 설정
     width: ${(props) => props.width}%;
     height: 30px;
     border-radius: 10px;
@@ -48,7 +65,6 @@ const Label = styled.p`
 
 const PriceLabel = styled.p`
     min-width: 80px;
-
     @media only screen and (max-width: 734px) {
         font-size: 14px;
         min-width: 60px;
@@ -66,6 +82,7 @@ const ImageContainer = styled.div`
     width: 40px;
     height: 40px;
     margin-right: 5px;
+    // props로 전달된 color 값을 설정
     background-color: ${(props) => props.color};
     border-radius: 50%;
     display: flex;
@@ -73,7 +90,7 @@ const ImageContainer = styled.div`
     align-items: center;
 
     svg {
-        font-size: 22px;
+        width: 22px;
         height: auto;
         color: #fff;
     }
@@ -83,7 +100,7 @@ const ImageContainer = styled.div`
         height: 27px;
 
         svg {
-            font-size: 17px;
+            width: 17px;
         }
 
         .Label {
@@ -112,19 +129,24 @@ const ExpenseGraph = ({ expenseData, selectedMonth }) => {
 
     // 열의 각 요소를 반복하면서 각 항목별로 지출 금액을 합산함
     //여기서 각 지출 항목(item)을 키로 해당 항목의 총 지출 금액(amount)을 값으로 가지는 객체를 생성
-    const categorizedData = filteredExpenseData.reduce((acc, expense) => {
+    const categorizedData = filteredExpenseData.reduce((accumulated, expense) => {
         const { item, amount } = expense;
         if (item && amount) {
-            if (!acc[item]) {
-                acc[item] = 0;
+            if (!accumulated[item]) {
+                accumulated[item] = 0;
             }
-            acc[item] += Number(amount);
+            accumulated[item] += Number(amount);
         }
-        return acc;
+        return accumulated;
     }, {});
 
+    // Object.entries : 주어진 객체의 속성(key-value 쌍)을 [키, 값] 쌍의 배열로 반환
+    // Object.values : 주어진 객체의 값들만을 배열로 반환
+
+    // 객체를 배열로 변환하고, 지출 금액(amount)을 기준으로 내림차순으로 정렬
     const sortedData = Object.entries(categorizedData).sort(([, amountA], [, amountB]) => amountB - amountA);
-    const totalAmount = Object.values(categorizedData).reduce((acc, amount) => acc + amount, 0);
+    // categorizedData객체의 값들을 모두 더하여 총 지출 금액을 계산함
+    const totalAmount = Object.values(categorizedData).reduce((accumulated, amount) => accumulated + amount, 0);
 
     return (
         <GraphContainer>

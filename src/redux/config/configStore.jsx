@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import expenseDataReducer from '../modules/expenseDate';
 
+//configureStore 함수를 사용하여 Redux 스토어를 설정
 const store = configureStore({
     reducer: {
         expenseData: expenseDataReducer,

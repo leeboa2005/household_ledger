@@ -16,6 +16,7 @@ const StyledHome = styled.div`
 
 const Home = () => {
     const dispatch = useDispatch();
+    // Redux store에서 지출 데이터를 가져옴
     const expenseData = useSelector((state) => state.expenseData.items);
 
     // 새로운 지출 데이터를 Redux store에 추가하는 함수
