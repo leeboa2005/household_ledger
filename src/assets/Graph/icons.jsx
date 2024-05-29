@@ -29,4 +29,5 @@ const icons = {
     교통: FaBus,
     기타: FaMinus,
 };
+
 export default icons;
