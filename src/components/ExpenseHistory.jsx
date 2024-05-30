@@ -3,6 +3,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 
 const StyledHistoryWrap = styled.section`
     width: 100%;
@@ -85,4 +86,4 @@ ExpenseHistory.propTypes = {
     expenseData: PropTypes.array.isRequired,
 };
 
-export default ExpenseHistory;
+export default memo(ExpenseHistory);
