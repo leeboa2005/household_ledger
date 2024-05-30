@@ -1,5 +1,3 @@
-// ExpenseHistory.jsx
-
 import { useNavigate } from 'react-router-dom';
 import { memo } from 'react';
 import styled from 'styled-components';
