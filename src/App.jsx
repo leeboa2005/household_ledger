@@ -55,6 +55,11 @@ const GlobalStyle = createGlobalStyle`${reset}
     --default-radius-2: 6px;
 }
 
+section{
+    width: 100%;
+    border-radius: var(--default-radius);
+}
+
 @media only screen and (max-width: 1068px) {
     :root {
         --default-width: 720px;
@@ -72,10 +77,6 @@ const GlobalStyle = createGlobalStyle`${reset}
     :root {
         --default-width: 320px;
     }
-}
-section{
-    width: 100%;
-    border-radius: var(--default-radius);
 }
 
 `;
