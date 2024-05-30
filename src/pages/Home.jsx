@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addExpenseData } from '../redux/modules/expenseDate';
 import styled from 'styled-components';
