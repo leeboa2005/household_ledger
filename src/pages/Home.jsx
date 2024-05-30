@@ -22,7 +22,7 @@ const Home = () => {
     });
 
     // 월 변경 함수
-    const changeMonth = (month) => {
+    const onChangeMonth = (month) => {
         setSelectedMonth(month); // 선택된 월 상태를 업데이트
         localStorage.setItem('selectedMonth', month.toString()); // 선택된 월을 로컬 스토리지에 저장
     };
@@ -51,8 +51,8 @@ const Home = () => {
             <ExpenseForm onExpenseData={onExpenseData} />
             {/* expenseData 은 모든 지출 데이터 배열, selectedMonth은 현재 선택된 월을 나타냄*/}
             <ExpenseGraph expenseData={expenseData} selectedMonth={selectedMonth} />
-            {/* selectedMonth 현재 선택된 월, onChangeMonth 월을 변경할 때 호출 함수 */}
-            <MonthlyExpense selectedMonth={selectedMonth} onChangeMonth={changeMonth} />
+            {/* selectedMonth 현재 선택된 월, onOnChangeMonth 월을 변경할 때 호출 함수 */}
+            <MonthlyExpense selectedMonth={selectedMonth} onChangeMonth={onChangeMonth} />
             {/* 선택된 월에 해당하는 지출 내역 데이터 배열 */}
             <ExpenseHistory expenseData={filteredExpenseData} />
         </StyledHome>
