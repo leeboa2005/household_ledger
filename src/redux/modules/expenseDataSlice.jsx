@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import fakeData from '../../db/fakeData.json'; // 더미데이터 임포트
+import fakeData from '../../db/fakeData.json';
 
 const expenseDataSlice = createSlice({
     name: 'expenseData',
