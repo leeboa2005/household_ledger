@@ -5,7 +5,8 @@ import Layout from '../shared/Layout';
 import { useSelector } from 'react-redux'; // Redux의 useSelector를 사용합니다.
 
 const Router = () => {
-    const expenseData = useSelector((state) => state.expenseData.items); // Redux 상태에서 expenseData를 가져옵니다.
+    const selectExpenseData = (state) => state.expenseData.items; // Redux state에서 expenseData를 가져옵니다.
+    const expenseData = useSelector(selectExpenseData);
 
     return (
         <BrowserRouter>
