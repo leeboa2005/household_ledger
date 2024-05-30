@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -38,21 +37,16 @@ const StyledMonthlyBtn = styled.div`
 `;
 
 const MonthlyExpense = ({ selectedMonth, onChangeMonth }) => {
-    const monthArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; // 월
-    const [activeMonth, setActiveMonth] = useState(selectedMonth); // 부모 컴포넌트로 부터 받은 선택된 월 상태관리
-
-    useEffect(() => {
-        onChangeMonth(activeMonth); // 선택된 월이 변경될 때마다 부모 컴포넌트로 선택된 월을 전달하고 로컬 스토리지에 저장한다.
-        localStorage.setItem('selectedMonth', activeMonth.toString());
-    }, [activeMonth, onChangeMonth]);
-
+    const monthArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     return (
         <StyledMonthlyWrap>
             <StyledMonthlyBtnWrap>
-                {/* 1 ~ 12월 버튼생성 */}
                 {monthArr.map((month) => (
-                    // 선택된 월에 따라 활성, 비활성 스타일 적용 클릭시 해당 월로 이동
-                    <StyledMonthlyBtn key={month} $active={activeMonth === month} onClick={() => setActiveMonth(month)}>
+                    <StyledMonthlyBtn
+                        key={month}
+                        $active={selectedMonth === month}
+                        onClick={() => onChangeMonth(month)}
+                    >
                         {month}월
                     </StyledMonthlyBtn>
                 ))}
