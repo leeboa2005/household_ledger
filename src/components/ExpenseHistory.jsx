@@ -1,6 +1,7 @@
 // ExpenseHistory.jsx
 
 import { useNavigate } from 'react-router-dom';
+import { memo } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -85,4 +86,4 @@ ExpenseHistory.propTypes = {
     expenseData: PropTypes.array.isRequired,
 };
 
-export default ExpenseHistory;
+export default memo(ExpenseHistory);

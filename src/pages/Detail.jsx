@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateExpenseData, deleteExpenseData } from '../redux/modules/expenseDate';
+import { updateExpenseData, deleteExpenseData } from '../redux/modules/expenseDataSlice';
 import styled from 'styled-components';
 
 const StyledDetail = styled.div`

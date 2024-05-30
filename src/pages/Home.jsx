@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addExpenseData } from '../redux/modules/expenseDate';
+import { addExpenseData } from '../redux/modules/expenseDataSlice';
 import styled from 'styled-components';
 import ExpenseForm from '../components/ExpenseForm';
 import ExpenseHistory from '../components/ExpenseHistory';
 import MonthlyExpense from '../components/MonthlyExpense';
 import ExpenseGraph from '../components/ExpenseGraph';
-import PropTypes from 'prop-types';
 
 const StyledHome = styled.div`
     display: flex;
@@ -15,8 +14,7 @@ const StyledHome = styled.div`
 `;
 
 const Home = () => {
-    const dispatch = useDispatch();
-    // Redux store에서 지출 데이터를 가져옴
+    const dispatch = useDispatch(); // Redux store에서 지출 데이터를 가져옴
     const expenseData = useSelector((state) => state.expenseData.items);
 
     // 새로운 지출 데이터를 Redux store에 추가하는 함수
@@ -41,14 +39,6 @@ const Home = () => {
         return new Date(item.date).getMonth() + 1 === selectedMonth;
     });
 
-    // 컴포넌트가 마운트될 때 로컬 스토리지에서 선택된 월을 가져와서 상태에 설정
-    useEffect(() => {
-        const savedMonth = localStorage.getItem('selectedMonth');
-        if (savedMonth) {
-            setSelectedMonth(parseInt(savedMonth));
-        }
-    }, []);
-
     return (
         <StyledHome>
             {/* 새로운 지출 추가 함수를 받음 */}
@@ -61,10 +51,6 @@ const Home = () => {
             <ExpenseHistory expenseData={filteredExpenseData} />
         </StyledHome>
     );
-};
-Home.propTypes = {
-    expenseData: PropTypes.array.isRequired,
-    setExpenseData: PropTypes.func.isRequired,
 };
 
 export default Home;

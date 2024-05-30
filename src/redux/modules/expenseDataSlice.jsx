@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import fakeData from '../../db/fakeData.json';
+import fakeData from '../../db/fakeData.json'; // 더미데이터 임포트
 
 const expenseDataSlice = createSlice({
-    name: 'expenseData', //   // 슬라이스의 이름을 지정
+    name: 'expenseData',
     initialState: {
         items: fakeData, // 처음에 dummy data를 초기값으로 설정
     },
-    // action과 함께 상태를 업데이트하는 리듀서 함수들을 정의
     reducers: {
         addExpenseData: (state, action) => {
             // 새로운 지출 데이터를 배열에 추가합니다.
