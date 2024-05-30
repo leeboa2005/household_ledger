@@ -81,7 +81,6 @@ const App = () => {
     return (
         <div>
             <GlobalStyle />
-            {/* 라우터 컴포넌트 렌더링 */}
             <Router expenseData={expenseData} setExpenseData={setExpenseData} />
         </div>
     );

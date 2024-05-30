@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import { ExpenseInfoContext } from '../context/ExpenseProvider';
 
 const StyledDetail = styled.div`
     margin-top: 30px;
@@ -109,7 +109,8 @@ const ButtonGroup = styled.div`
     }
 `;
 
-const Detail = ({ expenseData, setExpenseData }) => {
+const Detail = () => {
+    const { expenseData, setExpenseData } = useContext(ExpenseInfoContext);
     const { id } = useParams(); // URL에서 id 파라미터를 가져옴
     const navigate = useNavigate(); // 페이지 이동시 필요한 함수
 
@@ -281,12 +282,6 @@ const Detail = ({ expenseData, setExpenseData }) => {
             </ButtonGroup>
         </StyledDetail>
     );
-};
-
-// PropType 지정
-Detail.propTypes = {
-    expenseData: PropTypes.array.isRequired,
-    setExpenseData: PropTypes.func.isRequired,
 };
 
 export default Detail;

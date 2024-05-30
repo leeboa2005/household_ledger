@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import ExpenseForm from '../components/ExpenseForm';
 import ExpenseHistory from '../components/ExpenseHistory';
 import MonthlyExpense from '../components/MonthlyExpense';
 import ExpenseGraph from '../components/ExpenseGraph';
-import PropTypes from 'prop-types';
+import { ExpenseInfoContext } from '../context/ExpenseProvider';
 
 const StyledHome = styled.div`
     display: flex;
@@ -12,7 +12,9 @@ const StyledHome = styled.div`
     justify-content: center;
 `;
 
-const Home = ({ expenseData, setExpenseData }) => {
+const Home = () => {
+    const { expenseData, setExpenseData } = useContext(ExpenseInfoContext);
+
     // 선택된 월과 해당 월을 변경하는 상태와 함수를 생성
     const [selectedMonth, setSelectedMonth] = useState(() => {
         const savedMonth = localStorage.getItem('selectedMonth');
@@ -55,11 +57,6 @@ const Home = ({ expenseData, setExpenseData }) => {
             <ExpenseHistory expenseData={filteredExpenseData} />
         </StyledHome>
     );
-};
-
-Home.propTypes = {
-    expenseData: PropTypes.array.isRequired,
-    setExpenseData: PropTypes.func.isRequired,
 };
 
 export default Home;
