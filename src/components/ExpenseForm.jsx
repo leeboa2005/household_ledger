@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
 const StyledFormWrap = styled.section`
-    width: 100%;
     margin: 30px 0 20px 0;
     padding: 20px 0;
-    border-radius: var(--default-radius);
 `;
 
 const StyledForm = styled.form`

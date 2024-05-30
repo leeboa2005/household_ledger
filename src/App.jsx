@@ -73,6 +73,10 @@ const GlobalStyle = createGlobalStyle`${reset}
         --default-width: 320px;
     }
 }
+section{
+    width: 100%;
+    border-radius: var(--default-radius);
+}
 
 `;
 
