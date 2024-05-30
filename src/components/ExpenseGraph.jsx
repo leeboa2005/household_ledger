@@ -24,7 +24,7 @@ const GraphContainer = styled.div`
     width: 100%;
     background-color: var(--grey-color);
     border-radius: var(--default-radius);
-    padding: 10px;
+    padding: 17px 10px;
 `;
 
 const BarContainer = styled.div`
